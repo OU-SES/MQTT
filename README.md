@@ -124,3 +124,39 @@ All source files are located in a single folder:
     
     # Add include paths
     target_include_directories(MQTT_DLL PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+2. **Generate Build Files**
+
+   Open a terminal in the project directory and run:
+   
+      ```sh
+      mkdir build
+      cd build
+      cmake .. -G "Visual Studio 16 2019" -A x64
+      ```
+   Replace the generator string with your Visual Studio version if different.
+3. **Build the DLL**  
+   Run the following command inside the `build` folder:
+
+       cmake --build . --config Release
+
+   After building, you will find the following files in `./build/Release/`:
+
+   - MQTT_DLL.dll – The compiled dynamic link library  
+   - MQTT_DLL.lib – Import library for linking  
+   - MQTT_DLL.pdb – Debug symbols (optional)
+
+   This confirms that CMake correctly built the DLL without needing a `.sln` file.
+
+## Usage
+
+After building, you can:
+
+- Use `MQTTMessageFactory` or `PacketGenerator` to generate MQTT messages.
+- Use `PacketInterpreter` to interpret MQTT packets.
+
+Ensure the `.dll` and header files are included or distributed properly in the consuming application.
+
+## Notes
+
+- If you are not using precompiled headers (`pch.cpp`, `pch.h`), remove them from the `CMakeLists.txt`.
+- You can use `__declspec(dllexport)` or enable `CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS` in your CMake file to export symbols automatically.
